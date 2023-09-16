@@ -1,0 +1,15 @@
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.csproj.AssemblyReference.cache
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.GeneratedMSBuildEditorConfig.editorconfig
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.AssemblyInfoInputs.cache
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.AssemblyInfo.cs
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.csproj.CoreCompileInputs.cache
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/bin/Debug/net7.0/Simple_Poker_Bot
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/bin/Debug/net7.0/Simple_Poker_Bot.deps.json
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/bin/Debug/net7.0/Simple_Poker_Bot.runtimeconfig.json
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/bin/Debug/net7.0/Simple_Poker_Bot.dll
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/bin/Debug/net7.0/Simple_Poker_Bot.pdb
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.dll
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/refint/Simple_Poker_Bot.dll
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.pdb
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/Simple_Poker_Bot.genruntimeconfig.cache
+/Users/aidanwaite/RiderProjects/Simple Poker Bot/obj/Debug/net7.0/ref/Simple_Poker_Bot.dll
