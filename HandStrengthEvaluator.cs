@@ -1,11 +1,8 @@
 using System.Data;
+using System.Diagnostics;
 
 public class HandStrengthEvaluator
 {
-    public HandStrengthEvaluator()
-    {
-    }
-
     private HandStrength EvaluatePreflop(List<Card> holeCards)
     {
         if (holeCards[0].cardRank == holeCards[1].cardRank)
@@ -19,6 +16,70 @@ public class HandStrengthEvaluator
         }
 
         return HandStrength.Weak;
+    }
+    
+    public List<Player> WinningPlayerFor(List<PlayerHandRankAndCards> playerHandRankAndCards)
+    {
+        // Find the best ranking hands
+        HandRank bestRank = HandRank.HighCard;
+        foreach (PlayerHandRankAndCards phc in playerHandRankAndCards)
+        {
+            // The best hand is the initial enum value for rank
+            // The lower the int value the better the hand
+            if (phc.HandRankAndCards.Rank < bestRank)
+            {
+                bestRank = phc.HandRankAndCards.Rank;
+            }
+        }
+
+        // Remove all players who don't have the highest rank
+        playerHandRankAndCards.RemoveAll(phc => phc.HandRankAndCards.Rank != bestRank);
+        
+        // If there's one player only we have a winner
+        if (playerHandRankAndCards.Count == 1)
+        {
+            return new() { playerHandRankAndCards[0].Player };
+        }
+        
+        // More than one player has a highest rank hand
+        // Figure out who won based on the type of hand
+        switch (bestRank)
+        {
+            case HandRank.FullHouse:
+                CardRank highestThreeCards = CardRank.Deuce;
+                foreach (PlayerHandRankAndCards phc in playerHandRankAndCards)
+                {
+                    Debug.Assert(phc.HandRankAndCards.Cards.Count == 5, "Full houses should always have 5 cards");
+                    phc.HandRankAndCards.Cards.Sort((a, b) => b.cardRank - a.cardRank);
+                    // The middle card will always be the 3
+                    if (phc.HandRankAndCards.Cards[2].cardRank > highestThreeCards)
+                    {
+                        highestThreeCards = phc.HandRankAndCards.Cards[2].cardRank;
+                    }
+                }
+                return playerHandRankAndCards
+                    .Where(o => o.HandRankAndCards.Cards[2].cardRank == highestThreeCards)
+                    .Select(o => o.Player)
+                    .ToList();
+            
+            default:
+                CardRank highestCardRank = CardRank.Deuce;
+                foreach (PlayerHandRankAndCards phc in playerHandRankAndCards)
+                {
+                    // Sort in place in descending order so the 0th card is the highest
+                    phc.HandRankAndCards.Cards.Sort((a, b) => b.cardRank - a.cardRank);
+                    if (phc.HandRankAndCards.Cards[0].cardRank > highestCardRank)
+                    {
+                        highestCardRank = phc.HandRankAndCards.Cards[0].cardRank;
+                    }
+                }
+                
+                // Return all players with the highest card
+                return playerHandRankAndCards
+                    .Where(o => o.HandRankAndCards.Cards[0].cardRank == highestCardRank)
+                    .Select(o => o.Player)
+                    .ToList();
+        }
     }
 
     public HandStrength Evaluate(List<Card> holeCards, List<Card> communityCards)
@@ -58,9 +119,11 @@ public class HandStrengthEvaluator
         }
     }
     
-    private HandRankAndCards Rank(List<Card> unsortedHand)
+    // Assumes that hole cards are passed in first
+    public HandRankAndCards Rank(List<Card> unsortedHand)
     {
         // First sort the cards from lowest to highest
+        var holeCards = unsortedHand.Take(2).ToList();
         var hand = unsortedHand.OrderBy(x => (int)x.cardRank).ToList();
         var isFlush = IsFlush(hand);
         var isStraight = IsStraight(hand);
@@ -157,10 +220,7 @@ public class HandStrengthEvaluator
             return new HandRankAndCards(HandRank.OnePair,
                 hand.FindAll(x => x.cardRank == orderedFrequency.ElementAt(0).Key));
         }
-
-        // Having some strange issue where there's sometimes no hole cards. For now just return an empty list.
-        // var holeCards = hand.FindAll(x => x.cardLocation == CardLocation.Hole).OrderByDescending(x => (int)x.cardRank).ToList();
-        var holeCards = new List<Card>();
+        
         return new HandRankAndCards(HandRank.HighCard, holeCards);
     }
 

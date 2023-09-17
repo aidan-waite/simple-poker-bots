@@ -2,7 +2,11 @@
 
 ![Dogs playing poker with a robot](readme.png)
 
-A project for testing simple poker bots against each other. There's no machine learning or AI or anything smart. Each bot follows simple rules.
+### About
+
+- A project for testing simple poker bots against each other in six handed games. 
+- There's no machine learning or AI or anything smart. Each bot follows simple rules.
+- No dependencies
 
 ### How to run
 
