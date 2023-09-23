@@ -1,23 +1,11 @@
 public class ShowdownHandStrength
 {
-    
-    // High card
-    // A is 14
-    // K is 13
-    // Q is 12
-    // J is 11
-    // ten is 10
-    // nine is 9
-    // eight is 8
-    // seven is 7
-    // six is 6
-    // five is 5
-    // four is 4
-    // three is 3
-    // deuce is 2
-    
     public void HandStrength(long h)
     {
+        // TODO 1: Identify each hand type 
+        // TODO 2: Calculate a numeric hand strength
+        
+        // Input hand format
         // A A A A     K K K K    Q Q Q Q    J J J J    10 10 10 10     9 9 9 9     8 8 8 8     7 7 7 7     6 6 6 6     5 5 5 5     4 4 4 4     3 3 3 3     2 2 2 2
         // 0 0 0 0     0 0 0 0    0 0 0 0    0 0 0 0    0  0  0  0      0 0 0 0     0 0 0 0     0 0 0 0     0 0 0 0     0 0 0 0     0 0 0 0     0 0 0 0     0 0 0 0
         
