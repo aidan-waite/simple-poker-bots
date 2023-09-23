@@ -11,15 +11,40 @@ public class WhoWonTests
         Console.WriteLine("----- Who Won Tests -----");
         Console.WriteLine("-------------------------");
         
-        Console.WriteLine("\n--- Begin TestTwoPair1 ---");
+        TestHighCard1();
         TestTwoPair1();
-        Console.WriteLine("--- End TestTwoPair1 ---");
-
-        Console.WriteLine("\n--- Begin TestTwoPair2 ---");
         TestTwoPair2();
-        Console.WriteLine("--- End TestTwoPair2 ---");
     }
+    
+    void TestHighCard1()
+    {
+        watch.Start();
+        List<Card> communityCards = new List<Card>();
+        communityCards.Add(new Card(Suit.Hearts, CardRank.Deuce));
+        communityCards.Add(new Card(Suit.Clubs, CardRank.King));
+        communityCards.Add(new Card(Suit.Clubs, CardRank.Three));
+        communityCards.Add(new Card(Suit.Hearts, CardRank.Six));
+        communityCards.Add(new Card(Suit.Spades, CardRank.Six));
 
+        List<Card> holeCards = new List<Card>();
+        
+        // player 1 cards
+        holeCards.Add(new Card(Suit.Hearts, CardRank.Eight));
+        holeCards.Add(new Card(Suit.Hearts, CardRank.Queen));
+        
+        // player 2 cards
+        holeCards.Add(new Card(Suit.Diamonds, CardRank.Ten));
+        holeCards.Add(new Card(Suit.Clubs, CardRank.Seven));
+
+        var playerHands = SetupWithCards(holeCards, communityCards);
+        
+        // Expect player 1 to win with a queen high
+        var winningPlayers = strengthEvaluator.WinningPlayerFor(playerHands);
+        var testResult = winningPlayers.Count == 1 && winningPlayers[0].ID == "player1";
+        watch.Stop();
+        Console.WriteLine((testResult ? "✅" : "❌") + "  Test high card 1 expected winner:player1 determined winner:" + winningPlayers[0].ID + " " + watch.ElapsedMilliseconds + " ms");
+    }
+    
     // Test the case where only one player has two pair
     void TestTwoPair1()
     {
@@ -63,7 +88,7 @@ public class WhoWonTests
         var winningPlayers = strengthEvaluator.WinningPlayerFor(playerHands);
         var testResult = winningPlayers.Count == 1 && winningPlayers[0].ID == "player2";
         watch.Stop();
-        Console.WriteLine("Test two pair 1 expected winner:player2 determined winner:" + winningPlayers[0].ID + " test result:" + testResult + " " + watch.ElapsedMilliseconds + " ms");
+        Console.WriteLine((testResult ? "✅" : "❌") + "  Test two pair 1 expected winner:player2 determined winner:" + winningPlayers[0].ID + " " + watch.ElapsedMilliseconds + " ms");
     }
 
     // Test the case where two players have two pair
@@ -109,9 +134,8 @@ public class WhoWonTests
         var winningPlayers = strengthEvaluator.WinningPlayerFor(playerHands);
         var testResult = winningPlayers.Count == 1 && winningPlayers[0].ID == "player5";
         watch.Stop();
-        Console.WriteLine("Test two pair 2 expected winner:player5 determined winner:" + winningPlayers[0].ID + " test result:" + testResult + " " + watch.ElapsedMilliseconds + " ms");
+        Console.WriteLine((testResult ? "✅" : "❌") + "  Test two pair 2 expected winner:player5 determined winner:" + winningPlayers[0].ID + " " + watch.ElapsedMilliseconds + " ms");
     }
-
     
     List<PlayerHandRankAndCards> SetupWithCards(List<Card> holeCards, List<Card> communityCards)
     {

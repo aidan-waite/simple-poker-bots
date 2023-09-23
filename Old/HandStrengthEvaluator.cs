@@ -63,22 +63,48 @@ public class HandStrengthEvaluator
                     .ToList();
             
             default:
-                CardRank highestCardRank = CardRank.Deuce;
+                
+
+// if one player holds A-8, a second player holds A-7, and the board is A-K-6-5-4, the player with the A-8 will outkick the player with the A-7, since A-8's best hand is A-A-K-8-6, while the A-7's hand is A-A-K-7-6.
+// However, if the board held A-K-Q-J-3, the players would tie, because both would play the hand A-A-K-Q-J
+
+                // First sort the cards highest first
                 foreach (PlayerHandRankAndCards phc in playerHandRankAndCards)
                 {
                     // Sort in place in descending order so the 0th card is the highest
                     phc.HandRankAndCards.Cards.Sort((a, b) => b.cardRank - a.cardRank);
-                    if (phc.HandRankAndCards.Cards[0].cardRank > highestCardRank)
-                    {
-                        highestCardRank = phc.HandRankAndCards.Cards[0].cardRank;
-                    }
                 }
                 
-                // Return all players with the highest card
-                return playerHandRankAndCards
-                    .Where(o => o.HandRankAndCards.Cards[0].cardRank == highestCardRank)
-                    .Select(o => o.Player)
-                    .ToList();
+                // Go through each of the first 5 cards looking for a winner
+                // If no difference is found then it's a tie
+                
+                for (var cardSlot = 0; cardSlot < 5; cardSlot++)
+                {
+                    if (playerHandRankAndCards.Count == 1)
+                    {
+                        break;
+                    }
+                    
+                    // Find the highest rank for the current slot
+                    CardRank highestRank = CardRank.Deuce;
+                    foreach (PlayerHandRankAndCards phc in playerHandRankAndCards)
+                    {
+                        if (phc.HandRankAndCards.Cards[cardSlot].cardRank > highestRank)
+                        {
+                            highestRank = phc.HandRankAndCards.Cards[cardSlot].cardRank;
+                        }
+                    }
+                    
+                    // Remove all players whose card don't have the highest rank
+                    playerHandRankAndCards.RemoveAll(x => x.HandRankAndCards.Cards[cardSlot].cardRank != highestRank);
+                }
+
+                return playerHandRankAndCards.Select(o => o.Player).ToList();
+            
+                // return playerHandRankAndCards
+                //     .Where(o => o.HandRankAndCards.Cards[0].cardRank == highestCardRank)
+                //     .Select(o => o.Player)
+                //     .ToList();
         }
     }
 

@@ -121,7 +121,8 @@ public class Card : IEquatable<Card>
 
 public class HandRankAndCards
 {
-    public List<Card> Cards; // Note: only includes cards relevant to the hand rank
+    public List<Card> Cards; // Only includes cards relevant to the hand rank, so one pair will only have two cards
+    public List<Card> Kickers; // one or both hole cards not used in the hand but used to break ties
     public HandRank Rank;
 
     public HandRankAndCards(HandRank r, List<Card> c)
